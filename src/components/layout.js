@@ -1,15 +1,29 @@
 import React from 'react';
 import styled from 'styled-components';
-import { Link } from 'gatsby';
+import { Link, useStaticQuery, graphql } from 'gatsby';
+
+const query = graphql`
+  query {
+    site {
+      siteMetadata {
+        title
+      }
+    }
+  }
+`;
 
 const Layout = ({ pageTitle, children }) => {
+  const data = useStaticQuery(query);
+
   return (
     <Wrapper>
-      <title>{pageTitle}</title>
+      <title>{pageTitle} | {data.site.siteMetadata.title}</title>
+      <Header>{data.site.siteMetadata.title}</Header>
       <nav>
         <NavLinks>
           <NavItem><Text to="/">Home</Text></NavItem>
           <NavItem><Text to="/about">About</Text></NavItem>
+          <NavItem><Text to="/blog">Blog</Text></NavItem>
         </NavLinks>
       </nav>
       <main>
@@ -24,6 +38,13 @@ const Wrapper = styled.div`
   margin: auto;
   max-width: 500px;
   font-family: sans-serif;
+`;
+
+const Header = styled.header`
+  font-size: 3rem;
+  color: gray;
+  font-weight: 700;
+  margin: 3rem 0;
 `;
 
 const Heading = styled.h1`
